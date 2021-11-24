@@ -88,4 +88,72 @@ function gettop10BowlersByYear(matchData, deliveryData, year){
      }).slice(0,10)
 }
 
-module.exports = {getMatchesPlayedPerYear, getmatcheswonPerTeamPerYear,getExtraRunsPerTeamByYear,gettop10BowlersByYear}
+function getCountTeamWonMatchAndToss(matchData){
+    let teamWinDataObject = {};
+    matchData.map((element)=>{
+        if(element.toss_winner==element.winner){
+            if(!(element.winner in teamWinDataObject)){
+                teamWinDataObject[element.winner] = 1;
+            }else{
+                teamWinDataObject[element.winner]+=1;
+            }
+        }
+        return;
+    })
+    return teamWinDataObject;
+}
+
+function getplayerOfTheMatchPerSeason(matchData){
+    const dataPlayerOfTheMatch = {};
+    matchData.map((element)=>{
+        if(!(element.season in dataPlayerOfTheMatch)){
+            dataPlayerOfTheMatch[element.season] = {};
+        }
+        const playerOfMatch = element.player_of_match;
+        const seasonObject = dataPlayerOfTheMatch[element.season];
+        if(!(playerOfMatch in seasonObject)){
+            seasonObject[playerOfMatch] = 1;
+        }else{
+            seasonObject[playerOfMatch]+=1;
+        }
+        return true;
+    })
+    const keys = Object.keys(dataPlayerOfTheMatch);
+    keys.map((key)=>{
+        const obj = dataPlayerOfTheMatch[key];
+        //console.log(obj);
+        const topPlayerObjec = {};
+        const keys = Object.keys(obj);
+        let maxKey = 'key';
+        let maxValue = 0;
+        keys.map((key)=>{
+            if(obj[key] > maxValue){
+                maxKey = key;
+                maxValue = obj[key];
+            }
+            return true;
+        })
+        topPlayerObjec[maxKey] = maxValue;
+        dataPlayerOfTheMatch[key] = topPlayerObjec;
+        return true;
+    })
+    return dataPlayerOfTheMatch;
+}
+
+function getstrikeRateBySeasons(matchData, deliveryData){
+    const strikeRateObject = {};
+    matchData.map((element)=>{
+        const season = element.season;
+        const matchId = element.id;
+        if(!(season in strikeRateObject)){
+            strikeRateObject[saeson] ={} 
+        }
+        deliveryData.map((delivery)=>{
+            
+        })
+        return true;
+    })
+    
+}
+
+module.exports = {getMatchesPlayedPerYear, getmatcheswonPerTeamPerYear,getExtraRunsPerTeamByYear,gettop10BowlersByYear,getCountTeamWonMatchAndToss,getplayerOfTheMatchPerSeason,getstrikeRateBySeasons}

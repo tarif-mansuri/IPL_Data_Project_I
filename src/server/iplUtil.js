@@ -7,4 +7,15 @@ function getDataByYear(data, year){
             return false;
     })
 }
-module.exports = {getDataByYear}
+function objectToArray(obj){
+    const arr = [];
+    const keys = Object.keys(obj);
+    keys.map((key)=>{
+        newObj = {};
+        newObj[key] = obj[key];
+        arr.push(newObj);
+        return true;
+    })
+    return arr;
+}
+module.exports = {getDataByYear,objectToArray}
